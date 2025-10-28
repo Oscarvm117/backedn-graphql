@@ -1,22 +1,15 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python"
+  "functions": {
+    "api/index.py": {
+      "runtime": "python3.9",
+      "includeFiles": "**"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/(.*)",
       "dest": "api/index.py"
     }
-  ],
-  "functions": {
-    "api/index.py": {
-      "includeFiles": "mi_base_de_datos.db",
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  }
+  ]
 }

@@ -8,12 +8,15 @@
   ],
   "routes": [
     {
-      "src": "/graphql",
-      "dest": "api/index.py"
-    },
-    {
       "src": "/(.*)",
       "dest": "api/index.py"
     }
-  ]
+  ],
+  "functions": {
+    "api/index.py": {
+      "includeFiles": "mi_base_de_datos.db",
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
 }

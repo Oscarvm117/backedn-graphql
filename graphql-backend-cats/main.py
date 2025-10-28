@@ -16,7 +16,7 @@ from infrastructure.inbound.graphql.resolvers import Resolvers
 from infrastructure.inbound.graphql.schema import schema, set_resolvers
 
 # Configuración
-DATABASE_URL = os.getenv('DATABASE_URL', 'students.db')
+DATABASE_URL = os.getenv('DATABASE_URL', 'mi_base_de_datos.db')
 PORT = int(os.getenv('PORT', 8000))
 
 # Inicializar repositorios
@@ -32,12 +32,16 @@ resolvers = Resolvers(get_students_use_case, get_breed_use_case)
 set_resolvers(resolvers)
 
 # Crear aplicación FastAPI
-app = FastAPI(title="GraphQL Backend - Cats & Students")
+app = FastAPI(
+    title="GraphQL Backend - Cats & Students",
+    docs_url="/api/docs",  # Cambiar la ruta de docs
+    redoc_url="/api/redoc"
+)
 
-# Configurar CORS
+# Configurar CORS - IMPORTANTE para que el frontend pueda conectarse
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # En producción, especifica los orígenes permitidos
+    allow_origins=["*"],  # En producción, especifica tu dominio de frontend
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -49,6 +53,7 @@ app.include_router(graphql_app, prefix="/graphql")
 
 # Ruta de health check
 @app.get("/")
+@app.get("/api")
 async def root():
     return {
         "message": "GraphQL Backend - Cats & Students API",
@@ -57,10 +62,12 @@ async def root():
     }
 
 @app.get("/health")
+@app.get("/api/health")
 async def health():
     return {"status": "healthy"}
 
 
+# Solo para desarrollo local
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=PORT)

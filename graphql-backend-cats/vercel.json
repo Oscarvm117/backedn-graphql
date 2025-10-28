@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "main.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "main.py"
+    }
+  ],
+  "env": {
+    "CAT_API_KEY": "@cat_api_key",
+    "CAT_API_URL": "https://api.thecatapi.com/v1",
+    "DATABASE_URL": "mi_base_de_datos.db",
+    "PORT": "8000"
+  }
+}

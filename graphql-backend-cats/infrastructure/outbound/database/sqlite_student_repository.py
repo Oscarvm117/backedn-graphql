@@ -14,7 +14,7 @@ class SQLiteStudentRepository(StudentRepository):
         
         try:
             async with aiosqlite.connect(self.db_path) as db:
-                # CAMBIO AQUÍ: students -> usuarios
+                # IMPORTANTE: La tabla se llama 'usuarios'
                 async with db.execute(
                     "SELECT id, nombre, edad, correo, carrera, facultad FROM usuarios"
                 ) as cursor:
